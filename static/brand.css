@@ -1,0 +1,41 @@
+/* Фирменная палитра «Фотопринт» / picPac.by.
+   Источник — CSS-переменные сайта picpac.by: акцент #DD5757, основное действие #38524F,
+   меню и подвал #364657 / #30373E, фон #FAF5ED.
+   Подключается последним и переопределяет только цвета; сетка, размеры и шрифт исходного дизайна не меняются.
+   Контраст: белый на #DD5757 = 3,8:1 (мало для текста), поэтому для кнопок с текстом — #C84646 (4,8:1);
+   #DD5757 — для логотипа и декоративных элементов. */
+:root{
+  --page:#EEE7DC; --frame:#FAF5ED; --card:#ffffff; --surface:#F3EDE3; --surface-2:#FBF8F3;
+  --ink:#26303A; --ink-2:#364657; --muted:#666B6A; --line:#ECE5D9; --soft:#DDD4C6;
+  --blue:#38524F; --blue-h:#2D4441; --blue-soft:#E3ECEA;
+  --red:#A8322D; --red-soft:#FBE7E5;
+  --coral:#DD5757; --coral-ink:#C84646; --coral-h:#B53D3D;
+  --tip:#30373E; --promo:#364657; --ring:#38524F;
+  --shadow:0 30px 80px -40px rgba(54,70,87,.28);
+}
+
+/* кнопки действий — фирменный коралл */
+.btn.primary{background:var(--coral-ink)}
+.btn.primary:hover{background:var(--coral-h)}
+
+/* места, где в исходном дизайне цвет был зашит, а не взят из токена */
+.nav a.on{box-shadow:0 12px 22px -8px rgba(56,82,79,.55)}
+.stat.primary{background:linear-gradient(135deg,#3F5D59 0%,#30474A 100%);box-shadow:0 16px 30px -14px rgba(56,82,79,.65)}
+.stat.primary .ic{color:var(--blue)}
+.stat.primary .sub,.callout p{color:#D6E2E0}
+.upgrade .ic{color:var(--coral-ink)}
+.bar.fc{background:repeating-linear-gradient(-45deg,rgba(56,82,79,.6) 0 3px,rgba(56,82,79,.15) 3px 7px)}
+.bar.fc.bad{background:repeating-linear-gradient(-45deg,rgba(168,50,45,.75) 0 3px,rgba(168,50,45,.18) 3px 7px)}
+.tip .hatch{background:repeating-linear-gradient(-45deg,#9CC3BD 0 2px,transparent 2px 4px);border-color:#9CC3BD}
+
+/* логотип */
+.logo{gap:10px}
+.logo img{height:32px;width:auto;display:block}
+.logo .brand-name{font-size:14px;font-weight:700;color:var(--ink-2);padding-left:10px;border-left:1px solid var(--line);line-height:1.1}
+.login .promo .logo-chip{display:inline-flex;align-items:center;gap:10px;background:#fff;border-radius:14px;padding:8px 14px;color:var(--ink-2);font-weight:700;font-size:14px}
+.login .promo .logo-chip img{height:30px;width:auto}
+
+/* экран входа — фирменный коралл (затемнённый для контраста текста) */
+.login .promo{background:linear-gradient(135deg,#C84646 0%,#A93A3A 100%)}
+.login .promo p,.login .promo small{color:#FFE9E6!important}
+

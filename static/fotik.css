@@ -1,0 +1,93 @@
+/* ИИ-ассистент «Фотик»: плавающая кнопка и панель чата. Цвета — токены дизайн-системы и brand.css;
+   единственный собственный цвет — голубое свечение глаз Фотика (--fotik-glow). */
+:root{--fotik-glow:#3FD0FF;--fotik-glow-soft:rgba(63,208,255,.35)}
+
+#toasts{bottom:104px}
+
+.fotik-fab{position:fixed;right:24px;bottom:24px;z-index:60;width:64px;height:64px;border-radius:50%;padding:0;
+  background:var(--card);box-shadow:0 14px 30px -12px rgba(38,48,58,.55),0 0 0 3px var(--card),0 0 0 5px var(--fotik-glow-soft);
+  transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s}
+.fotik-fab img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+/* раз в 10 с Фотик покачивается и подмигивает правым глазом: веко закрывает глаз-дугу, вместо него — светящаяся черта */
+.fotik-face{display:block;position:relative;width:100%;height:100%;border-radius:50%;overflow:hidden;transform-origin:50% 80%;
+  animation:fotikWiggle 10s ease-in-out infinite}
+.fotik-wink{position:absolute;left:44%;top:26%;width:20%;height:16%;border-radius:45%;background:#0b1424;opacity:0;
+  animation:fotikWink 10s infinite}
+.fotik-wink::after{content:"";position:absolute;left:14%;right:14%;top:52%;height:2px;margin-top:-1px;border-radius:2px;background:#56d6ff;box-shadow:0 0 4px #56d6ff}
+@keyframes fotikWiggle{0%,86%,100%{transform:rotate(0)}88%{transform:rotate(-9deg)}90%{transform:rotate(8deg)}92%{transform:rotate(-6deg)}94%{transform:rotate(4deg)}96%{transform:rotate(-1deg)}97%{transform:rotate(0)}}
+@keyframes fotikWink{0%,93.4%,98.6%,100%{opacity:0}94%,98%{opacity:1}}
+.fotik-fab:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 18px 34px -12px rgba(38,48,58,.6),0 0 0 3px var(--card),0 0 0 6px var(--fotik-glow)}
+.fotik-fab:focus-visible{outline:3px solid var(--ring);outline-offset:4px}
+.fotik-fab .fotik-tag{position:absolute;right:72px;top:50%;transform:translateY(-50%);white-space:nowrap;background:var(--tip);color:#fff;
+  font-size:13px;font-weight:600;padding:7px 12px;border-radius:10px;opacity:0;pointer-events:none;transition:opacity .15s}
+.fotik-fab:hover .fotik-tag,.fotik-fab:focus-visible .fotik-tag{opacity:1}
+.fotik-fab[aria-expanded="true"]{transform:scale(.9);opacity:0;pointer-events:none}
+
+.fotik{position:fixed;right:24px;bottom:24px;z-index:70;width:400px;height:min(640px,calc(100vh - 48px));display:flex;flex-direction:column;
+  background:var(--card);border-radius:24px;box-shadow:0 40px 90px -30px rgba(38,48,58,.55),0 0 0 1px var(--line);overflow:hidden;
+  transform-origin:bottom right;animation:fotikIn .22s cubic-bezier(.2,.8,.2,1)}
+.fotik[hidden]{display:none}
+@keyframes fotikIn{from{opacity:0;transform:translateY(12px) scale(.96)}}
+
+.fotik-head{display:flex;align-items:center;gap:12px;padding:14px 14px 14px 16px;background:var(--blue);color:#fff}
+.fotik-head img{width:42px;height:42px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px rgba(255,255,255,.85)}
+.fotik-head .fwho{flex:1;min-width:0}
+.fotik-head b{display:block;font-size:16px;line-height:1.2}
+.fotik-head small{display:block;font-size:12px;opacity:.82;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fotik-head button{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:#fff}
+.fotik-head button:hover{background:rgba(255,255,255,.14)}
+.fotik-head button:focus-visible{outline:2px solid #fff;outline-offset:1px}
+.fotik-head .i{width:18px;height:18px}
+
+.fotik-log{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;background:var(--surface-2);overscroll-behavior:contain}
+.fotik-hello{margin:auto 0;text-align:center;padding:4px 8px 8px}
+.fotik-hello img{width:150px;height:150px;border-radius:28px;object-fit:cover;margin:0 auto 12px;display:block}
+.fotik-hello h3{font-size:18px;margin-bottom:6px}
+.fotik-hello p{font-size:14px;color:var(--muted);max-width:300px;margin:0 auto}
+
+.fm{max-width:88%;font-size:14px;line-height:1.5;word-wrap:break-word}
+.fm.u{align-self:flex-end;background:var(--blue);color:#fff;padding:10px 14px;border-radius:16px 16px 4px 16px;white-space:pre-wrap}
+.fm.a{align-self:flex-start;display:flex;gap:8px;align-items:flex-end}
+.fm.a > img{width:28px;height:28px;border-radius:50%;object-fit:cover;flex:none}
+.fm.a .fbub{background:var(--card);border:1px solid var(--line);padding:10px 14px;border-radius:16px 16px 16px 4px;color:var(--ink)}
+.fm.a .fbub p+p,.fm.a .fbub p+ul,.fm.a .fbub ul+p{margin-top:8px}
+.fm.a .fbub ul{padding-left:18px;list-style:disc;display:grid;gap:4px}
+.fm.a .fbub b{font-weight:700}
+.fm .fmeta{display:block;font-size:11px;color:var(--muted);margin-top:6px}
+.fm.ferr .fbub{background:var(--red-soft);border-color:transparent}
+.fm.ferr .fbub button{margin-top:8px;font-weight:600;color:var(--red);text-decoration:underline}
+
+.fotik-think{align-self:flex-start;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.fotik-think img{width:28px;height:28px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px var(--fotik-glow-soft);animation:fotikGlow 1.4s ease-in-out infinite}
+.fotik-think i{display:inline-flex;gap:3px;margin-left:2px}
+.fotik-think i span{width:5px;height:5px;border-radius:50%;background:var(--fotik-glow);animation:fotikDot 1s infinite}
+.fotik-think i span:nth-child(2){animation-delay:.15s}
+.fotik-think i span:nth-child(3){animation-delay:.3s}
+@keyframes fotikDot{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+@keyframes fotikGlow{50%{box-shadow:0 0 0 4px var(--fotik-glow-soft)}}
+
+.fotik-quick{display:flex;gap:6px;padding:10px 12px 0;flex-wrap:wrap;background:var(--card)}
+.fotik-quick button{font-size:13px;font-weight:600;padding:7px 11px;border-radius:999px;background:var(--surface);color:var(--ink-2);border:1px solid var(--line)}
+.fotik-quick button:hover:not(:disabled){border-color:var(--blue);color:var(--blue)}
+.fotik-quick button:disabled{opacity:.5;cursor:default}
+.fotik-quick button:focus-visible{outline:2px solid var(--ring);outline-offset:1px}
+
+.fotik-form{display:flex;gap:8px;align-items:flex-end;padding:10px 12px 12px;background:var(--card)}
+.fotik-form textarea{flex:1;resize:none;border:1px solid var(--soft);border-radius:14px;padding:10px 12px;font-size:14px;line-height:1.4;
+  max-height:120px;min-height:42px;background:var(--surface-2);color:var(--ink)}
+.fotik-form textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft)}
+.fotik-form .send{width:42px;height:42px;border-radius:12px;background:var(--blue);color:#fff;display:grid;place-items:center;flex:none}
+.fotik-form .send:hover:not(:disabled){background:var(--blue-h)}
+.fotik-form .send:disabled{opacity:.45;cursor:default}
+.fotik-form .send:focus-visible{outline:3px solid var(--ring);outline-offset:2px}
+.fotik-form .i{width:18px;height:18px}
+.fotik-note{font-size:11px;color:var(--muted);text-align:center;padding:0 12px 10px;background:var(--card)}
+
+@media (max-width:560px){
+  .fotik{right:0;bottom:0;width:100%;height:100%;border-radius:0}
+  .fotik-fab{right:16px;bottom:16px;width:56px;height:56px}
+  #toasts{bottom:88px}
+}
+@media (prefers-reduced-motion:reduce){
+  .fotik,.fotik-fab,.fotik-face,.fotik-wink,.fotik-think img,.fotik-think i span{animation:none;transition:none}
+}
